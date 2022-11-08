@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/*
+ * BWINF-41 "Huepfburg"
+ * Developer: Daniel Orkin
+ * Team-ID: 00376
+ */
+
 
 public class Main {
 	
@@ -62,20 +68,23 @@ public class Main {
 		if (!startPoint.contains(1) || !startPoint.contains(2)) {
 			System.out.println("Map doesn't contain a entry point."); 
 		} else {
+			
+			// Map mit der ersten Ebene an Werten vorbereitem
+			
 			ArrayList<Integer> index1 = getIndex(startPoint, 1);
 			ArrayList<Integer> index2 = getIndex(startPoint, 2);
 			
 			index1 = getEquivalent(endPoint, index1);
 			index2 = getEquivalent(endPoint, index2);
 
-			Map<Integer, Map<Integer, Integer>> parent1 = new HashMap<Integer, Map<Integer, Integer>>();
-			Map<Integer, Map<Integer, Integer>> parent2 = new HashMap<Integer, Map<Integer, Integer>>();
+			Map<Integer, Map<Integer, Integer>> tree1 = new HashMap<Integer, Map<Integer, Integer>>();
+			Map<Integer, Map<Integer, Integer>> tree2 = new HashMap<Integer, Map<Integer, Integer>>();
 			
 			Map<Integer, Integer> tmp1 = new HashMap<Integer, Integer>();
 			
 			for (int i : index1) {
 				tmp1.put(i, 1);
-				parent1.put(0, tmp1);
+				tree1.put(0, tmp1);
 			}
 			
 			Map<Integer, Integer> tmp2 = new HashMap<Integer, Integer>();
@@ -83,10 +92,10 @@ public class Main {
 			for (int i : index2) {
 				tmp2.put(i, 2);
 
-				parent2.put(0, tmp2);
+				tree2.put(0, tmp2);
 			}
 			
-			calculate(parent1, parent2, startPoint, endPoint, 1);
+			calculate(tree1, tree2, startPoint, endPoint, 1);
 				
 		}
 	}
@@ -118,6 +127,8 @@ public class Main {
 				}
 			}
 			
+			// Neue "Kinder" an kompletten Baum anbinden
+			
 			if (!return1.isEmpty()) {
 				tree1.put(index, return1);
 			} else {
@@ -131,6 +142,8 @@ public class Main {
 			}
 			
 			index = index +1;
+			
+			// Zwei Listen auf einen gleichen Wert überprüfen
 			
 			ArrayList<Integer> l1 = new ArrayList<>(return1.keySet());
 			ArrayList<Integer> l2 = new ArrayList<>(return2.keySet());
@@ -172,20 +185,26 @@ public class Main {
 
 
 	private static ArrayList<Integer> getEquivalent(ArrayList<Integer> array, ArrayList<Integer> i) {
+		
 		ArrayList<Integer> result = new ArrayList<>();
+		
 		for (int x = 0 ; x < i.size() ; x++) {
 			result.add(array.get(i.get(x)));
 		}
+		
 		return result;
 	}
 
 	private static ArrayList<Integer> getIndex(ArrayList<Integer> array, int i) {
+		
 		ArrayList<Integer> result = new ArrayList<>();
+		
 		while (array.indexOf(i) != -1) {
 			int x = array.indexOf(i);
 			result.add(x);
 			array.set(x, -1);
 		}
+		
 		return result;
 	}
 
