@@ -57,7 +57,6 @@ public class Main {
 			}
 		}
 		
-		
         // Ebene für ebene durchgehen
 		
 		if (!startPoint.contains(1) || !startPoint.contains(2)) {
@@ -105,7 +104,6 @@ public class Main {
 				ArrayList<Integer> tmp = getIndex(startPoint, i.getKey());
 				tmp = getEquivalent(endPoint, tmp);
 				
-				
 				for (int h : tmp) {
 					return1.put(h, i.getKey());
 				}
@@ -114,7 +112,6 @@ public class Main {
 			for (var i : level2.entrySet()) {
 				ArrayList<Integer> tmp = getIndex(startPoint, i.getKey());
 				tmp = getEquivalent(endPoint, tmp);
-				
 				
 				for (int h : tmp) {
 					return2.put(h, i.getKey());
