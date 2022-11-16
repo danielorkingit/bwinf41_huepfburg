@@ -17,54 +17,34 @@ import java.util.Scanner;
 
 public class Main {
 	
-	static class Node {
-	    public int data; //data for storage
-	    public List<Node> children;//array will keep children
-	    public ArrayList<String> path;
-	    public Node parent;
-
-	    public Node(Integer data) {
-	        children = new ArrayList<>();
-	        this.data = data;
-	        ArrayList<String> path = new ArrayList<>();
-	        this.path.add(data.toString());
-	        
-	        //this.parent = parent;
-	    }
-	    
-	    public ArrayList<String> showPath() {
-	    	return path;
-	    }
-	    
-	    public Node add(Node node) {
-	        children.add(node);
-	        node.path.addAll(path);
-	        return this;
-	    }
-	}
-	
-	
 	public static void main(String[] args) {
 		
 		// Input lesen
+		
+		System.out.println("Geben Sie die Daten des Parcours ein und bestätigen Sie mit der Eingabe-Taste.");
 		
 		Scanner scanner = new Scanner(System.in);
 		
 		ArrayList<Integer> startPoint = new ArrayList<>();
 		ArrayList<Integer> endPoint = new ArrayList<>();
 		
-		scanner.nextInt();
-		int stop = scanner.nextInt();
-		
-		for (int i = 0 ; i < stop ; i++) {
-			try {
-				startPoint.add(scanner.nextInt());
-				endPoint.add(scanner.nextInt());
-			} catch (Exception e) {
-				break;
+		try {
+			
+			scanner.nextInt();
+			int stop = scanner.nextInt();
+			
+			for (int i = 0 ; i < stop ; i++) {
+				try {
+					startPoint.add(scanner.nextInt());
+					endPoint.add(scanner.nextInt());
+				} catch (Exception e) {
+					break;
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("Invalid input.");
+			return;
 		}
-		
         // Ebene für ebene durchgehen
 		
 		if (!startPoint.contains(1) || !startPoint.contains(2)) {
@@ -152,18 +132,20 @@ public class Main {
 					calculate(tree1, tree2, startPoint, endPoint, index);
 				} else {
 					System.out.println("Erster Pfad (Sasha):");
+					System.out.print(1 + ", ");
 					ArrayList<Integer> path1 = calculatePath(tree1, index, l1.get(0), new ArrayList<Integer>());
 					Collections.reverse(path1);
-					path1.forEach((Integer i) -> {
-						System.out.println(i);
+					path1.forEach(i -> {
+						System.out.print(i + ", ");
 					});
-					System.out.println(l1.get(0));
+					System.out.print(l1.get(0));
 					
 					System.out.println("\nZweiter Pfad (Mika):");
+					System.out.print(2 + ", ");
 					ArrayList<Integer> path2 = calculatePath(tree2, index, l1.get(0), new ArrayList<Integer>());
 					Collections.reverse(path2);
-					path2.forEach((Integer i) -> {
-						System.out.println(i);
+					path2.forEach(i -> {
+						System.out.print(i + ", ");
 					});
 					System.out.println(l1.get(0));
 					
@@ -177,19 +159,16 @@ public class Main {
 
 	private static ArrayList<Integer> calculatePath(Map<Integer, Map<Integer, Integer>> tree, int index, int child, ArrayList<Integer> process) {
 		
-		Map<Integer, Integer> level1 = tree.get(index-1);
-							
-		child = level1.get(child);
+		if (index != 1) {
+			Map<Integer, Integer> level1 = tree.get(index-1);
 			
-		process.add(child);
-			
-		if(child == 1 || child == 2) {
-			return process;
-		} else {
-			calculatePath(tree, index-1, child, process);
+			child = level1.get(child);
+				
+			process.add(child);
+
+			calculatePath(tree, index-1, child, process);	
 		}
 		return process;
-		
 	}
 
 
